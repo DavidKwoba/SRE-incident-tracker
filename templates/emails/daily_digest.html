@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Digest</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f5f7; margin: 0; padding: 24px; }
+    .card { background: #fff; border-radius: 8px; max-width: 680px; margin: 0 auto; padding: 32px; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 8px 10px; background: #f3f4f6; color: #374151; font-weight: 600; }
+    td { padding: 8px 10px; border-bottom: 1px solid #f3f4f6; color: #111827; vertical-align: top; }
+    .p1 { color: #b91c1c; font-weight: 700; }
+    .p2 { color: #c2410c; font-weight: 700; }
+    .p3 { color: #a16207; }
+    .p4 { color: #15803d; }
+    .breach { background: #fef2f2; }
+    .footer { margin-top: 32px; font-size: 12px; color: #9ca3af; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2 style="margin-top:0;color:#111827;">Platform Incident Tracker — Daily Digest</h2>
+    <p style="color:#6b7280;">{{ incidents|length }} open incident{{ incidents|length|pluralize }} as of today.</p>
+
+    {% if incidents %}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th>Team</th>
+          <th>Assignee</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for incident in incidents %}
+        <tr {% if incident.sla_breached %}class="breach"{% endif %}>
+          <td>{{ incident.pk }}</td>
+          <td>{{ incident.title }}{% if incident.sla_breached %} ⚠️{% endif %}</td>
+          <td class="{{ incident.priority|lower }}">{{ incident.get_priority_display }}</td>
+          <td>{{ incident.get_status_display }}</td>
+          <td>{{ incident.reporting_team }}</td>
+          <td>{{ incident.assignee|default:"—" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="color:#6b7280;">No open incidents. 🎉</p>
+    {% endif %}
+
+    <div class="footer">Platform Incident Tracker &mdash; Daily digest sent automatically each morning.</div>
+  </div>
+</body>
+</html>

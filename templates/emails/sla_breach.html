@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SLA Breach</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f5f7; margin: 0; padding: 24px; }
+    .card { background: #fff; border-radius: 8px; max-width: 600px; margin: 0 auto; padding: 32px; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+    .alert { background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; }
+    .alert h3 { margin: 0 0 6px; color: #991b1b; }
+    .alert p { margin: 0; color: #b91c1c; font-size: 14px; }
+    .footer { margin-top: 32px; font-size: 12px; color: #9ca3af; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="alert">
+      <h3>⚠️ SLA Breach Detected</h3>
+      <p>The resolution deadline for this incident has passed without resolution.</p>
+    </div>
+
+    <h2 style="margin-top:0;">{{ incident.title }}</h2>
+    <p style="color:#6b7280;">Incident #{{ incident.pk }} &mdash; {{ incident.get_type_display }}</p>
+
+    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+      <tr><td style="padding:8px 0;color:#6b7280;width:45%;">Priority</td><td><strong>{{ incident.get_priority_display }}</strong></td></tr>
+      <tr><td style="padding:8px 0;color:#6b7280;">Current Status</td><td>{{ incident.get_status_display }}</td></tr>
+      <tr><td style="padding:8px 0;color:#6b7280;">Reporting Team</td><td>{{ incident.reporting_team }}</td></tr>
+      <tr><td style="padding:8px 0;color:#6b7280;">Assignee</td><td>{{ incident.assignee|default:"Unassigned" }}</td></tr>
+      <tr><td style="padding:8px 0;color:#6b7280;">Resolution Was Due</td><td style="color:#dc2626;font-weight:600;">{{ incident.resolution_due_at|date:"N j, Y, P" }}</td></tr>
+      <tr><td style="padding:8px 0;color:#6b7280;">Created</td><td>{{ incident.created_at|date:"N j, Y, P" }}</td></tr>
+    </table>
+
+    <div class="footer">Platform Incident Tracker &mdash; This is an automated notification.</div>
+  </div>
+</body>
+</html>
